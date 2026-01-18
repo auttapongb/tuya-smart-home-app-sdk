@@ -17,10 +17,8 @@ android {
         
         // Tuya SDK configuration
         manifestPlaceholders = [
-            TUYA_SMART_APPID    : "sdagrafgqhdpyp9f7uca",
-            TUYA_SMART_SECRET   : "ekfv97dpaafjf8pxdt4xt98awtp3cyvf",
-            TUYA_SMART_REGION   : "AE",
-            TUYA_SMART_CHANNEL  : "tuya"
+            TUYA_APP_KEY    : "sdagrafgqhdpyp9f7uca",
+            TUYA_APP_SECRET : "ekfv97dpaafjf8pxdt4xt98awtp3cyvf"
         ]
     }
 
@@ -81,11 +79,7 @@ dependencies {
     // Multidex support
     implementation 'androidx.multidex:multidex:2.0.1'
     
-    // Tuya Smart Life App SDK - Version 6.11.1 (from official download)
-    implementation('com.thingclips.smart:thingsmart:6.11.1') {
-        exclude group: 'com.thingclips.smart', module: 'thingsmart-matterlib'
-        exclude group: 'com.thingclips.smart', module: 'thingsmart-matterlib-api'
-    }
+    // Tuya SDK will be integrated in Phase 2 with proper configuration
     
     // Required dependencies for Tuya SDK
     implementation 'com.alibaba:fastjson:1.1.67.android'

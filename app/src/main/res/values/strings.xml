@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Tuya Smart Home</string>
-    <string name="status_initial">Tuya SDK initialized. Click buttons to interact with the SDK.</string>
-    <string name="btn_login">Check Login Status</string>
-    <string name="btn_get_home">Get Home Info</string>
-    <string name="btn_get_devices">Get Devices</string>
+    <string name="app_name">PANDO</string>
+    
+    <!-- Login Screen -->
+    <string name="login_title">Welcome to PANDO</string>
+    <string name="login_subtitle">Smart Pet Care, Simplified</string>
+    <string name="email_hint">Email Address</string>
+    <string name="password_hint">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Create Account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="no_account">Don\'t have an account?</string>
+    
+    <!-- Register Screen -->
+    <string name="register_title">Create Your Account</string>
+    <string name="register_subtitle">Join PANDO Smart Home</string>
+    <string name="country_code_hint">Country Code</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="verification_code_hint">Verification Code</string>
+    <string name="btn_send_code">Send Code</string>
+    <string name="btn_register_submit">Register</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="btn_back_to_login">Back to Login</string>
+    
+    <!-- Home Screen -->
+    <string name="home_title">My Devices</string>
+    <string name="btn_add_device">Add Device</string>
+    <string name="no_devices">No devices yet</string>
+    <string name="no_devices_subtitle">Tap the + button to add your first PANDO device</string>
+    <string name="device_online">Online</string>
+    <string name="device_offline">Offline</string>
+    
+    <!-- Common -->
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    
+    <!-- Error Messages -->
+    <string name="error_empty_email">Please enter your email</string>
+    <string name="error_invalid_email">Please enter a valid email</string>
+    <string name="error_empty_password">Please enter your password</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
+    <string name="error_login_failed">Login failed. Please check your credentials.</string>
+    <string name="error_register_failed">Registration failed. Please try again.</string>
+    <string name="error_network">Network error. Please check your connection.</string>
 </resources>
