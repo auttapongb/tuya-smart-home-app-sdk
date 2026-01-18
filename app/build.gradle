@@ -79,8 +79,19 @@ dependencies {
     // Multidex support
     implementation 'androidx.multidex:multidex:2.0.1'
     
-    // Tuya SDK will be added in full version
-    // implementation 'com.thingclips.smart:thingsmart:6.11.1'
+    // Tuya SDK with Camera support
+    implementation ('com.thingclips.smart:thingsmart:6.11.1') {
+        exclude group: 'com.thingclips.smart', module: 'thingsmart-matterlib'
+    }
+    
+    // Camera SDK dependencies - Commented out due to Maven availability issues
+    // These will be added when testing with real devices
+    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-sdk:6.11.1'
+    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-middleware:6.11.1'
+    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-utils:6.11.1'
+    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-cloud:6.11.1'
+    // implementation 'com.thingclips.smart:thingsmart-message:6.11.1'
+    // implementation 'com.thingclips.smart:thingsmart-videoview:6.11.1'
     
     // Required dependencies for Tuya SDK
     implementation 'com.alibaba:fastjson:1.1.67.android'

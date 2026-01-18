@@ -1,5 +1,6 @@
 package com.tuya.smartapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -27,8 +28,9 @@ public class DeviceControlActivity extends AppCompatActivity {
             setContentView(R.layout.activity_device_control_feeder);
             setupFeederControls();
         } else if ("camera".equals(deviceType)) {
-            setContentView(R.layout.activity_device_control_camera);
+            setContentView(R.layout.activity_device_control_fountain);
             setupCameraControls();
+            Toast.makeText(this, "Camera SDK integration pending", Toast.LENGTH_SHORT).show();
         } else {
             setContentView(R.layout.activity_device_control_fountain);
             setupFountainControls();
