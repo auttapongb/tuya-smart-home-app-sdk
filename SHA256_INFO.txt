@@ -1,0 +1,26 @@
+IMPORTANT: SHA256 Certificate Fingerprint for Tuya Platform
+
+You MUST bind this SHA256 fingerprint in the Tuya Developer Platform before the app will work.
+
+SHA256 Fingerprint:
+B3:34:E0:85:9E:FC:72:B5:27:F2:F4:2D:74:57:14:39:43:AB:A7:05:4F:49:AE:D4:DA:3D:F7:8A:C7:0C:89:F1
+
+Without colons (some platforms require this format):
+B334E0859EFC72B527F2F42D74571439 43ABA7054F49AED4DA3DF78AC70C89F1
+
+Steps to bind SHA256 in Tuya Platform:
+1. Log in to https://platform.tuya.com
+2. Navigate to your app settings
+3. Go to SDK Development → Your App → Security
+4. Add the SHA256 certificate fingerprint above
+5. Save the configuration
+6. Reinstall the app on your device
+
+Keystore Information:
+- File: release.keystore
+- Store Password: android123
+- Key Alias: release
+- Key Password: android123
+
+Note: This keystore is for development/testing purposes only.
+For production, generate a new keystore and keep it secure!
