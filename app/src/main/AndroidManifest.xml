@@ -64,6 +64,18 @@
             android:name=".DeviceControlActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ProductCatalogActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProductDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CheckoutActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

@@ -32,5 +32,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
+        
+        Button btnShopProducts = findViewById(R.id.btnShopProducts);
+        if (btnShopProducts != null) {
+            btnShopProducts.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, ProductCatalogActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 }
