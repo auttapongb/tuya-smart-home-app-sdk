@@ -21,6 +21,7 @@
     <color name="text_hint">#FF999999</color>
     
     <!-- Status Colors -->
+    <color name="success_green">#4CAF50</color>
     <color name="status_online">#4CAF50</color>
     <color name="status_offline">#FF5252</color>
     <color name="status_warning">#FFA500</color>

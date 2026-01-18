@@ -23,9 +23,10 @@ public class HomeActivity extends AppCompatActivity {
         tvWelcome.setText("Welcome to PANDO!\nYour smart pet care hub");
         
         FloatingActionButton fabAddDevice = findViewById(R.id.fab_add_device);
-        fabAddDevice.setOnClickListener(v -> 
-            Toast.makeText(this, "Device pairing coming in Phase 2!", Toast.LENGTH_SHORT).show()
-        );
+        fabAddDevice.setOnClickListener(v -> {
+            Intent intent = new Intent(this, DeviceListActivity.class);
+            startActivity(intent);
+        });
     }
     
     @Override
