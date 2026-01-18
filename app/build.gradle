@@ -79,8 +79,10 @@ dependencies {
     // Multidex support
     implementation 'androidx.multidex:multidex:2.0.1'
     
-    // Tuya SDK will be added in full version
-    // implementation 'com.thingclips.smart:thingsmart:6.11.1'
+    // Tuya Smart Life App SDK - Version 6.11.1
+    implementation('com.thingclips.smart:thingsmart:6.11.1') {
+        exclude group: 'com.thingclips.smart', module: 'thingsmart-matterlib'
+    }
     
     // Required dependencies for Tuya SDK
     implementation 'com.alibaba:fastjson:1.1.67.android'

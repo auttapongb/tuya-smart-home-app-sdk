@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
+        android:name=".PandoApplication"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
