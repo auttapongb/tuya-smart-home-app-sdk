@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/app_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/status_initial"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="@drawable/status_background"
+            android:textColor="@color/text_primary" />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:spacing="8dp">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/btn_login"
+            android:layout_marginBottom="8dp"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_get_home"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/btn_get_home"
+            android:layout_marginBottom="8dp"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_get_devices"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/btn_get_devices"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

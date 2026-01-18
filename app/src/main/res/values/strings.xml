@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tuya Smart Home</string>
+    <string name="status_initial">Tuya SDK initialized. Click buttons to interact with the SDK.</string>
+    <string name="btn_login">Check Login Status</string>
+    <string name="btn_get_home">Get Home Info</string>
+    <string name="btn_get_devices">Get Devices</string>
+</resources>
