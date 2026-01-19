@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_confirm_password"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"

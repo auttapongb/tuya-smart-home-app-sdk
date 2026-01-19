@@ -8,12 +8,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.textfield.TextInputEditText;
+
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     
-    private TextInputEditText etEmail, etPassword;
+    private android.widget.EditText etEmail, etPassword;
     private Button btnLogin;
     private ProgressBar progressBar;
     private TextView tvRegister;

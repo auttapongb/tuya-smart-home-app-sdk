@@ -15,7 +15,7 @@ android {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
         versionCode 1
-        versionName "3.4-InAppDebug"
+        versionName "3.5-Fixed"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         

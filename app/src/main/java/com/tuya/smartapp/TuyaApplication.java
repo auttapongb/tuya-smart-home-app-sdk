@@ -16,7 +16,7 @@ public class TuyaApplication extends Application {
         DebugLogger.d(TAG, "\n\n");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "###   PANDO APPLICATION STARTING   ###");
-        DebugLogger.d(TAG, "###   Version: 3.4-InAppDebug      ###");
+        DebugLogger.d(TAG, "###   Version: 3.5-Fixed           ###");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "TuyaApplication.onCreate() called");
         

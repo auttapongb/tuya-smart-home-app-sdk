@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements DebugLogger.LogUpdateListener {
     private static final String TAG = "MainActivity";
-    private static final String APP_VERSION = "3.4-InAppDebug";
+    private static final String APP_VERSION = "3.5-Fixed";
     
     private View debugLogContainer;
     private TextView tvLogs;
