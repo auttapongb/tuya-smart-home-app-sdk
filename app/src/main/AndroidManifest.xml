@@ -115,6 +115,14 @@
             android:name=".DeviceDiscoveryActivity"
             android:exported="false" />
 
+        <!-- Tuya SDK Configuration -->
+        <meta-data
+            android:name="THING_SMART_APPKEY"
+            android:value="sdagrafgqhdpyp9f7uca" />
+        <meta-data
+            android:name="THING_SMART_SECRET"
+            android:value="ekfv97dpaafjf8pxdt4xt98awtp3cyvf" />
+
     </application>
 
 </manifest>
