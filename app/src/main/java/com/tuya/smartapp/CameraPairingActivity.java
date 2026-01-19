@@ -13,6 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 public class CameraPairingActivity extends AppCompatActivity {
     private static final String TAG = "CameraPairingActivity";
     private static final int REQUEST_WIFI_SELECTION = 1001;
@@ -216,13 +221,18 @@ public class CameraPairingActivity extends AppCompatActivity {
             tvStatus.setText("Generating QR code...");
             tvStatus.setVisibility(View.VISIBLE);
             
-            // Simulate QR code generation (in real implementation, use Tuya SDK)
-            // For now, create a simple QR code with WiFi info
+            // Create QR code data in WiFi format
             String qrData = "WIFI:T:WPA;S:" + ssid + ";P:" + password + ";;";
             
-            // Generate QR code bitmap (would use ZXing library)
-            // For now, just show a placeholder
-            ivQRCode.setVisibility(View.VISIBLE);
+            // Generate QR code bitmap using ZXing
+            Bitmap qrBitmap = generateQRCodeBitmap(qrData, 800, 800);
+            
+            if (qrBitmap != null) {
+                ivQRCode.setImageBitmap(qrBitmap);
+                ivQRCode.setVisibility(View.VISIBLE);
+            } else {
+                throw new Exception("Failed to generate QR code bitmap");
+            }
             
             // Hide progress
             progressBar.setVisibility(View.GONE);
@@ -294,6 +304,36 @@ public class CameraPairingActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+    
+    /**
+     * Generate QR code bitmap from text data using ZXing library
+     * @param data The text data to encode in QR code
+     * @param width Width of the QR code image in pixels
+     * @param height Height of the QR code image in pixels
+     * @return Bitmap of the QR code, or null if generation fails
+     */
+    private Bitmap generateQRCodeBitmap(String data, int width, int height) {
+        try {
+            QRCodeWriter writer = new QRCodeWriter();
+            BitMatrix bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, width, height);
+            
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    // Set pixel to black if bit is set, white otherwise
+                    bitmap.setPixel(x, y, bitMatrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF);
+                }
+            }
+            
+            DebugLogger.d(TAG, "QR code bitmap generated: " + width + "x" + height);
+            return bitmap;
+            
+        } catch (WriterException e) {
+            DebugLogger.e(TAG, "Error generating QR code bitmap", e);
+            return null;
+        }
     }
     
     @Override
