@@ -1,5 +1,8 @@
 package com.tuya.smartapp;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements DebugLogger.LogUpdateListener {
     private static final String TAG = "MainActivity";
-    private static final String APP_VERSION = "3.12.1-SDKDirect";
+    private static final String APP_VERSION = "3.12.2-LogShare";
     
     private View debugLogContainer;
     private TextView tvLogs;
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements DebugLogger.LogUp
         Button btnShowDebug = findViewById(R.id.btn_show_debug);
         Button btnClearLogs = findViewById(R.id.btn_clear_logs);
         Button btnCloseLogs = findViewById(R.id.btn_close_logs);
+        Button btnCopyLogs = findViewById(R.id.btn_copy_logs);
+        Button btnShareLogs = findViewById(R.id.btn_share_logs);
         
         if (btnShowDebug != null) {
             btnShowDebug.setOnClickListener(v -> {
@@ -74,6 +79,20 @@ public class MainActivity extends AppCompatActivity implements DebugLogger.LogUp
                 if (debugLogContainer != null) {
                     debugLogContainer.setVisibility(View.GONE);
                 }
+            });
+        }
+        
+        if (btnCopyLogs != null) {
+            btnCopyLogs.setOnClickListener(v -> {
+                DebugLogger.d(TAG, "Copy logs button clicked");
+                copyLogsToClipboard();
+            });
+        }
+        
+        if (btnShareLogs != null) {
+            btnShareLogs.setOnClickListener(v -> {
+                DebugLogger.d(TAG, "Share logs button clicked");
+                shareLogs();
             });
         }
         
@@ -149,6 +168,40 @@ public class MainActivity extends AppCompatActivity implements DebugLogger.LogUp
         }
         
         DebugLogger.d(TAG, "initializeViews() completed successfully");
+    }
+    
+    private void copyLogsToClipboard() {
+        try {
+            String logs = DebugLogger.getLogsAsString();
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("PANDO Debug Logs", logs);
+            clipboard.setPrimaryClip(clip);
+            
+            Toast.makeText(this, "✅ Logs copied to clipboard!", Toast.LENGTH_SHORT).show();
+            DebugLogger.d(TAG, "Logs copied to clipboard (" + logs.length() + " characters)");
+        } catch (Exception e) {
+            Toast.makeText(this, "❌ Failed to copy logs: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            DebugLogger.e(TAG, "Failed to copy logs", e);
+        }
+    }
+    
+    private void shareLogs() {
+        try {
+            String logs = DebugLogger.getLogsAsString();
+            
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "PANDO App Debug Logs - " + APP_VERSION);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, logs);
+            
+            Intent chooser = Intent.createChooser(shareIntent, "Share logs via...");
+            startActivity(chooser);
+            
+            DebugLogger.d(TAG, "Share intent created (" + logs.length() + " characters)");
+        } catch (Exception e) {
+            Toast.makeText(this, "❌ Failed to share logs: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            DebugLogger.e(TAG, "Failed to share logs", e);
+        }
     }
     
     @Override
