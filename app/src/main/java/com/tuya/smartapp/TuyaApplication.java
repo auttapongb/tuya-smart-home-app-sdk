@@ -16,7 +16,7 @@ public class TuyaApplication extends Application {
         DebugLogger.d(TAG, "\n\n");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "###   PANDO APPLICATION STARTING   ###");
-        DebugLogger.d(TAG, "###   Version: 3.13.0-SDK5      ###");
+        DebugLogger.d(TAG, "###   Version: 3.14.0-Complete ###");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "TuyaApplication.onCreate() called");
         
@@ -61,5 +61,23 @@ public class TuyaApplication extends Application {
         DebugLogger.d(TAG, "TuyaApplication.onCreate() completed");
         DebugLogger.d(TAG, "PANDO App started successfully");
         DebugLogger.d(TAG, "################################################\n");
+    }
+    
+    @Override
+    public void onTerminate() {
+        DebugLogger.d(TAG, "TuyaApplication.onTerminate() called");
+        
+        // Destroy Tuya SDK cloud connection
+        try {
+            Class<?> sdkClass = Class.forName("com.thingclips.smart.home.sdk.ThingHomeSdk");
+            java.lang.reflect.Method destroyMethod = sdkClass.getMethod("onDestroy");
+            destroyMethod.invoke(null);
+            DebugLogger.d(TAG, "✅ Tuya SDK destroyed successfully");
+        } catch (Exception e) {
+            DebugLogger.d(TAG, "Tuya SDK cleanup skipped (SDK not available)");
+        }
+        
+        super.onTerminate();
+        DebugLogger.d(TAG, "TuyaApplication terminated");
     }
 }
