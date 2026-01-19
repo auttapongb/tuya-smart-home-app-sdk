@@ -14,7 +14,12 @@ public class TuyaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         
-        Log.d(TAG, "PANDO App starting...");
+        Log.d(TAG, "\n\n");
+        Log.d(TAG, "################################################");
+        Log.d(TAG, "###   PANDO APPLICATION STARTING   ###");
+        Log.d(TAG, "###   Version: 3.3-Debug           ###");
+        Log.d(TAG, "################################################");
+        Log.d(TAG, "TuyaApplication.onCreate() called");
         
         // Initialize Tuya SDK in a separate thread to prevent blocking
         new Thread(() -> {
@@ -45,6 +50,8 @@ public class TuyaApplication extends Application {
             }
         }).start();
         
+        Log.d(TAG, "TuyaApplication.onCreate() completed");
         Log.d(TAG, "PANDO App started successfully");
+        Log.d(TAG, "################################################\n");
     }
 }

@@ -2,6 +2,7 @@ package com.tuya.smartapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCatalogActivity extends AppCompatActivity {
+    private static final String TAG = "ProductCatalogActivity";
     
     private RecyclerView recyclerView;
     private ProductCatalogAdapter adapter;
@@ -20,32 +22,71 @@ public class ProductCatalogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_catalog);
         
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("PANDO Products");
+        Log.d(TAG, "=== ProductCatalogActivity onCreate START ===");
+        
+        try {
+            Log.d(TAG, "Setting content view");
+            setContentView(R.layout.activity_product_catalog);
+            Log.d(TAG, "Content view set successfully");
+            
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            if (toolbar != null) {
+                setSupportActionBar(toolbar);
+            }
+            
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setTitle("PANDO Products");
+            }
+            
+            recyclerView = findViewById(R.id.recyclerViewProducts);
+            if (recyclerView != null) {
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            }
+            
+            loadProducts();
+            
+            Log.d(TAG, "Products loaded: " + (productList != null ? productList.size() : 0));
+            
+            if (recyclerView != null && productList != null) {
+                Log.d(TAG, "Setting up adapter");
+                adapter = new ProductCatalogAdapter(this, productList, product -> {
+                    try {
+                        Intent intent = new Intent(ProductCatalogActivity.this, ProductDetailActivity.class);
+                        intent.putExtra("product_id", product.getId());
+                        intent.putExtra("product_name", product.getName());
+                        intent.putExtra("product_price", product.getPrice());
+                        intent.putExtra("product_original_price", product.getOriginalPrice());
+                        intent.putExtra("product_image", product.getImageResource());
+                        intent.putExtra("product_description", product.getDescription());
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(this, "Product details coming soon!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+                Log.d(TAG, "Adapter set successfully");
+            }
+            
+            Log.d(TAG, "=== ProductCatalogActivity onCreate SUCCESS ===");
+        } catch (Exception e) {
+            Log.e(TAG, "=== ProductCatalogActivity onCreate FAILED ===", e);
+            Toast.makeText(this, "Error loading products: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            finish();
         }
-        
-        recyclerView = findViewById(R.id.recyclerViewProducts);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        
-        loadProducts();
-        
-        adapter = new ProductCatalogAdapter(this, productList, product -> {
-            Intent intent = new Intent(ProductCatalogActivity.this, ProductDetailActivity.class);
-            intent.putExtra("product_id", product.getId());
-            intent.putExtra("product_name", product.getName());
-            intent.putExtra("product_price", product.getPrice());
-            intent.putExtra("product_original_price", product.getOriginalPrice());
-            intent.putExtra("product_image", product.getImageResource());
-            intent.putExtra("product_description", product.getDescription());
-            startActivity(intent);
-        });
-        
-        recyclerView.setAdapter(adapter);
+    }
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "=== ProductCatalogActivity onStart ===");
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "=== ProductCatalogActivity onDestroy ===");
     }
     
     private void loadProducts() {
