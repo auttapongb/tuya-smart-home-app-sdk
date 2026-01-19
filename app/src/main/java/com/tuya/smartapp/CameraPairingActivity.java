@@ -29,8 +29,9 @@ public class CameraPairingActivity extends AppCompatActivity {
     private TextView tvPairingMode, tvInstructions;
     private EditText etSSID, etPassword;
     private Button btnSelectWiFi, btnStartPairing, btnScanQR;
+    private Button btnHeardPrompt, btnNoPrompt;
     private ImageView ivQRCode;
-    private LinearLayout layoutQRCode, layoutWiFiInput;
+    private LinearLayout layoutQRCode, layoutWiFiInput, layoutAudioPrompt;
     private ProgressBar progressBar;
     private TextView tvStatus;
     
@@ -100,6 +101,9 @@ public class CameraPairingActivity extends AppCompatActivity {
         ivQRCode = findViewById(R.id.ivQRCode);
         layoutQRCode = findViewById(R.id.layoutQRCode);
         layoutWiFiInput = findViewById(R.id.layoutWiFiInput);
+        layoutAudioPrompt = findViewById(R.id.layoutAudioPrompt);
+        btnHeardPrompt = findViewById(R.id.btnHeardPrompt);
+        btnNoPrompt = findViewById(R.id.btnNoPrompt);
         progressBar = findViewById(R.id.progressBar);
         tvStatus = findViewById(R.id.tvStatus);
         
@@ -166,6 +170,16 @@ public class CameraPairingActivity extends AppCompatActivity {
             DebugLogger.d(TAG, "Scan QR Code button clicked");
             generateQRCode();
         });
+        
+        btnHeardPrompt.setOnClickListener(v -> {
+            DebugLogger.d(TAG, "I Heard a Prompt button clicked");
+            handleAudioPromptHeard();
+        });
+        
+        btnNoPrompt.setOnClickListener(v -> {
+            DebugLogger.d(TAG, "No Prompts button clicked");
+            handleNoAudioPrompt();
+        });
     }
     
     private void openWiFiSelection() {
@@ -224,8 +238,8 @@ public class CameraPairingActivity extends AppCompatActivity {
             // Create QR code data in WiFi format
             String qrData = "WIFI:T:WPA;S:" + ssid + ";P:" + password + ";;";
             
-            // Generate QR code bitmap using ZXing
-            Bitmap qrBitmap = generateQRCodeBitmap(qrData, 800, 800);
+            // Generate QR code bitmap using ZXing (larger for better scanning)
+            Bitmap qrBitmap = generateQRCodeBitmap(qrData, 1000, 1000);
             
             if (qrBitmap != null) {
                 ivQRCode.setImageBitmap(qrBitmap);
@@ -304,6 +318,30 @@ public class CameraPairingActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+    
+    private void handleAudioPromptHeard() {
+        DebugLogger.d(TAG, "Camera audio prompt detected");
+        Toast.makeText(this, "Great! Camera is ready. Continue with pairing.", Toast.LENGTH_SHORT).show();
+        
+        // Hide audio prompt section
+        layoutAudioPrompt.setVisibility(View.GONE);
+        
+        // Show success status
+        tvStatus.setVisibility(View.VISIBLE);
+        tvStatus.setText("✅ Camera detected! Enter WiFi details to continue.");
+        
+        // Enable WiFi input
+        layoutWiFiInput.setVisibility(View.VISIBLE);
+    }
+    
+    private void handleNoAudioPrompt() {
+        DebugLogger.d(TAG, "No audio prompt from camera");
+        Toast.makeText(this, "Make sure camera is powered on and in pairing mode", Toast.LENGTH_LONG).show();
+        
+        // Show troubleshooting message
+        tvStatus.setVisibility(View.VISIBLE);
+        tvStatus.setText("⚠️ No prompt? Check if camera LED is blinking rapidly.");
     }
     
     /**

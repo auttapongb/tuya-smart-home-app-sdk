@@ -107,6 +107,10 @@
             android:name=".BlogActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".DeviceDiscoveryActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

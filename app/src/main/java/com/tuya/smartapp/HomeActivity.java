@@ -147,13 +147,13 @@ public class HomeActivity extends AppCompatActivity {
     
     private void startCameraPairing() {
         try {
-            DebugLogger.d(TAG, "Starting camera pairing...");
+            DebugLogger.d(TAG, "Starting camera pairing with device discovery...");
             
-            Intent intent = new Intent(this, PairingModeSelectionActivity.class);
+            Intent intent = new Intent(this, DeviceDiscoveryActivity.class);
             intent.putExtra("user_email", userEmail);
             startActivity(intent);
             
-            DebugLogger.d(TAG, "Camera pairing activity started");
+            DebugLogger.d(TAG, "Device discovery activity started");
             
         } catch (Exception e) {
             DebugLogger.e(TAG, "Error starting camera pairing", e);
