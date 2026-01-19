@@ -108,26 +108,17 @@ public class DeviceControlActivity extends AppCompatActivity {
     }
     
     private void setupCameraControls() {
-        Switch switchPower = findViewById(R.id.switch_power);
-        Switch switchMotion = findViewById(R.id.switch_motion);
-        Switch switchNightVision = findViewById(R.id.switch_night_vision);
-        Button btnSnapshot = findViewById(R.id.btn_snapshot);
-        
-        switchPower.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Toast.makeText(this, "Power: " + (isChecked ? "ON" : "OFF") + " (Demo)", Toast.LENGTH_SHORT).show();
-        });
-        
-        switchMotion.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Toast.makeText(this, "Motion Detection: " + (isChecked ? "ON" : "OFF") + " (Demo)", Toast.LENGTH_SHORT).show();
-        });
-        
-        switchNightVision.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Toast.makeText(this, "Night Vision: " + (isChecked ? "ON" : "OFF") + " (Demo)", Toast.LENGTH_SHORT).show();
-        });
-        
-        btnSnapshot.setOnClickListener(v -> {
-            Toast.makeText(this, "Snapshot taken! (Demo)", Toast.LENGTH_SHORT).show();
-        });
+        // Launch full camera activity with IPC SDK
+        String deviceId = getIntent().getStringExtra("deviceId");
+        if (deviceId != null && !deviceId.isEmpty()) {
+            Intent intent = new Intent(this, CameraActivity.class);
+            intent.putExtra("device_id", deviceId);
+            startActivity(intent);
+            finish(); // Close this activity since we're opening the camera activity
+        } else {
+            Toast.makeText(this, "Invalid device ID", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
     
     @Override

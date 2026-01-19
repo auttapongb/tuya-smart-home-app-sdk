@@ -10,8 +10,12 @@ android {
         applicationId "com.tuya.smartapp"
         minSdkVersion 23
         targetSdkVersion 34
+        
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
         versionCode 1
-        versionName "1.0"
+        versionName "3.0-Camera"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
@@ -53,6 +57,8 @@ android {
     
     packagingOptions {
         pickFirst 'lib/*/libc++_shared.so'
+        pickFirst 'lib/*/libyuv.so'
+        pickFirst 'lib/*/libopenh264.so'
     }
     
     configurations.all {
@@ -84,14 +90,10 @@ dependencies {
         exclude group: 'com.thingclips.smart', module: 'thingsmart-matterlib'
     }
     
-    // Camera SDK dependencies - Commented out due to Maven availability issues
-    // These will be added when testing with real devices
-    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-sdk:6.11.1'
-    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-middleware:6.11.1'
-    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-utils:6.11.1'
-    // implementation 'com.thingclips.smart:thingsmart-ipc-camera-cloud:6.11.1'
-    // implementation 'com.thingclips.smart:thingsmart-message:6.11.1'
-    // implementation 'com.thingclips.smart:thingsmart-videoview:6.11.1'
+    // Tuya IPC Camera SDK - Requires manual download from Tuya Platform
+    // The Maven version is empty/stub only. Full SDK must be obtained from:
+    // https://platform.tuya.com/ > SDK Download > IPC Camera SDK
+    // implementation 'com.thingclips.smart:thingsmart-ipcsdk:6.11.1'
     
     // Required dependencies for Tuya SDK
     implementation 'com.alibaba:fastjson:1.1.67.android'
