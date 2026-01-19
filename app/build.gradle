@@ -14,8 +14,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-        versionCode 21
-        versionName "3.12.3-CrashFix"
+        versionCode 22
+        versionName "3.13.0-SDK5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
@@ -67,6 +67,9 @@ android {
 }
 
 dependencies {
+    // Support for .aar files in libs folder (required by Tuya security package)
+    implementation fileTree(include: ['*.aar', '*.jar'], dir: 'libs')
+    
     // Android Core Libraries
     implementation 'androidx.core:core:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -86,7 +89,8 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     
     // Tuya SDK with Camera support
-    implementation ('com.thingclips.smart:thingsmart:6.11.6') {
+    // Downgraded to 5.6.6 (last stable version before 6.x native library issues)
+    implementation ('com.thingclips.smart:thingsmart:5.6.6') {
         exclude group: 'com.thingclips.smart', module: 'thingsmart-matterlib'
     }
     
