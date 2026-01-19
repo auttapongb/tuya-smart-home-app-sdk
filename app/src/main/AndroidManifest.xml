@@ -87,6 +87,14 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".CameraPairingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".DevicePairingActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
