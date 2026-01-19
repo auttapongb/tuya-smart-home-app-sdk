@@ -64,7 +64,7 @@ public class PairingModeSelectionActivity extends AppCompatActivity {
     private void startPairing(String mode) {
         DebugLogger.d(TAG, "Starting pairing with mode: " + mode);
         
-        Intent intent = new Intent(this, CameraPairingActivity.class);
+        Intent intent = new Intent(this, TuyaCameraPairingActivity.class);
         intent.putExtra("pairing_mode", mode);
         intent.putExtra("user_email", userEmail);
         startActivity(intent);

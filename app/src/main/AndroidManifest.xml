@@ -92,6 +92,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".TuyaCameraPairingActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".DevicePairingActivity"
             android:exported="false" />
 
