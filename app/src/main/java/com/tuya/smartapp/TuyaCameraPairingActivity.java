@@ -483,10 +483,11 @@ public class TuyaCameraPairingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         
         if (requestCode == REQUEST_WIFI_SELECTION && resultCode == RESULT_OK && data != null) {
-            selectedSSID = data.getStringExtra("selected_ssid");
+            selectedSSID = data.getStringExtra("ssid");  // Fix: use "ssid" not "selected_ssid"
             if (selectedSSID != null && etSSID != null) {
                 etSSID.setText(selectedSSID);
                 DebugLogger.d(TAG, "WiFi selected: " + selectedSSID);
+                Toast.makeText(this, "✅ WiFi selected: " + selectedSSID, Toast.LENGTH_SHORT).show();
             }
         }
     }
