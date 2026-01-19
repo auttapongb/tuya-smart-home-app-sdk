@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -30,14 +30,12 @@ public class ProductCatalogActivity extends AppCompatActivity {
             setContentView(R.layout.activity_product_catalog);
             DebugLogger.d(TAG, "Content view set successfully");
             
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            if (toolbar != null) {
-                setSupportActionBar(toolbar);
-            }
-            
+            // Set title using setTitle() instead of action bar
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setTitle("PANDO Products");
+            } else {
+                setTitle("PANDO Products");
             }
             
             recyclerView = findViewById(R.id.recyclerViewProducts);

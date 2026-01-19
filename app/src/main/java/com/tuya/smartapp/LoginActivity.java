@@ -96,15 +96,35 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         
-            // Simulate login
-            Toast.makeText(this, "Login successful! (Demo)", Toast.LENGTH_SHORT).show();
+            // Mock authentication
+            DebugLogger.d(TAG, "Attempting login with email: " + email);
             
-            try {
-                Intent intent = new Intent(this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            } catch (Exception e) {
-                Toast.makeText(this, "Home screen coming soon!", Toast.LENGTH_SHORT).show();
+            boolean isValid = false;
+            
+            // Test accounts
+            if ((email.equals("demo@pando.com") && password.equals("Pando123!")) ||
+                (email.equals("test@pando.com") && password.equals("Test123!")) ||
+                (email.equals("admin@pando.com") && password.equals("Admin123!")) ||
+                (email.equals("user@pando.com") && password.equals("User123!"))) {
+                isValid = true;
+            }
+            
+            if (isValid) {
+                DebugLogger.d(TAG, "Login successful for: " + email);
+                Toast.makeText(this, "Welcome to PANDO!", Toast.LENGTH_SHORT).show();
+                
+                try {
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    intent.putExtra("user_email", email);
+                    startActivity(intent);
+                    finish();
+                } catch (Exception e) {
+                    DebugLogger.e(TAG, "Error starting HomeActivity", e);
+                    Toast.makeText(this, "Home screen coming soon!", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                DebugLogger.d(TAG, "Login failed - invalid credentials");
+                Toast.makeText(this, "Invalid email or password!\n\nTry:\ndemo@pando.com / Pando123!", Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Toast.makeText(this, "Login error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
