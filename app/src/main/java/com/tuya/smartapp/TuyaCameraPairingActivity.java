@@ -49,10 +49,8 @@ public class TuyaCameraPairingActivity extends AppCompatActivity {
     // Tuya SDK objects (using reflection to avoid compile-time dependency)
     private Object tuyaActivator;
     private String pairingToken;
-    private long homeId; // Will be loaded from SharedPreferences
-    
-    private static final String PREFS_NAME = "app_prefs";
-    private static final String KEY_HOME_ID = "current_home_id";
+    private long homeId; // Will be loaded from HomeIdManager
+    private HomeIdManager homeIdManager;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +71,10 @@ public class TuyaCameraPairingActivity extends AppCompatActivity {
             initializeViews();
             wifiScanner = new WiFiScanner(this);
             
-            // Load home ID from SharedPreferences
-            android.content.SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-            homeId = prefs.getLong(KEY_HOME_ID, -1);
-            
-            if (homeId == -1) {
-                DebugLogger.e(TAG, "No home ID configured");
-                Toast.makeText(this, "❌ No home configured. Please create a home first.", Toast.LENGTH_LONG).show();
-                // For now, use default homeId = 1 for testing
-                homeId = 1;
-                DebugLogger.d(TAG, "Using default homeId = 1 for testing");
-            } else {
-                DebugLogger.d(TAG, "Loaded homeId: " + homeId);
-            }
+            // Load home ID using HomeIdManager
+            homeIdManager = new HomeIdManager(this);
+            homeId = homeIdManager.getCurrentHomeId();
+            DebugLogger.d(TAG, "Current homeId: " + homeId + " (" + homeIdManager.getCurrentHomeName() + ")");
             
             // Auto-detect WiFi
             if (wifiScanner != null) {
