@@ -1,8 +1,13 @@
 package com.tuya.smartapp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
+import android.os.Build;
 import android.os.Bundle;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +25,7 @@ import java.util.List;
 
 public class WiFiSelectionActivity extends AppCompatActivity {
     private static final String TAG = "WiFiSelectionActivity";
+    private static final int PERMISSION_REQUEST_CODE = 100;
     
     private ListView lvWiFiNetworks;
     private ProgressBar progressBar;
@@ -72,6 +78,15 @@ public class WiFiSelectionActivity extends AppCompatActivity {
             // Setup list view
             adapter = new WiFiListAdapter();
             lvWiFiNetworks.setAdapter(adapter);
+            
+            // Check and request location permission
+            if (checkLocationPermission()) {
+                DebugLogger.d(TAG, "Location permission granted, scanning WiFi");
+                scanWiFiNetworks();
+            } else {
+                DebugLogger.d(TAG, "Requesting location permission");
+                requestLocationPermission();
+            }
             
             lvWiFiNetworks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -157,6 +172,43 @@ public class WiFiSelectionActivity extends AppCompatActivity {
         resultIntent.putExtra("manual_entry", true);
         setResult(RESULT_OK, resultIntent);
         finish();
+    }
+    
+    private boolean checkLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return ContextCompat.checkSelfPermission(this, 
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
+    }
+    
+    private void requestLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            DebugLogger.d(TAG, "Requesting ACCESS_FINE_LOCATION permission");
+            ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_REQUEST_CODE);
+        }
+    }
+    
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                DebugLogger.d(TAG, "Location permission granted by user");
+                Toast.makeText(this, "Permission granted! Scanning WiFi networks...", Toast.LENGTH_SHORT).show();
+                scanWiFiNetworks();
+            } else {
+                DebugLogger.d(TAG, "Location permission denied by user");
+                Toast.makeText(this, "Location permission is required to scan WiFi networks", Toast.LENGTH_LONG).show();
+                // Show manual entry option
+                if (btnManualEntry != null) {
+                    btnManualEntry.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
     
     @Override
