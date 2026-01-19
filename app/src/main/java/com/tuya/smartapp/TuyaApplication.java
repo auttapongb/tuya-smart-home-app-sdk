@@ -1,6 +1,7 @@
 package com.tuya.smartapp;
 
 import android.app.Application;
+import com.thingclips.smart.home.sdk.ThingHomeSdk;
 
 /**
  * Application class for PANDO Smart Home App
@@ -16,7 +17,7 @@ public class TuyaApplication extends Application {
         DebugLogger.d(TAG, "\n\n");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "###   PANDO APPLICATION STARTING   ###");
-        DebugLogger.d(TAG, "###   Version: 3.12.0-Polished     ###");
+        DebugLogger.d(TAG, "###   Version: 3.12.1-SDKDirect   ###");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "TuyaApplication.onCreate() called");
         
@@ -24,33 +25,17 @@ public class TuyaApplication extends Application {
         try {
             DebugLogger.d(TAG, "Initializing Tuya SDK...");
             
-            // Import Tuya SDK classes
-            Class<?> sdkClass = Class.forName("com.thingclips.smart.home.sdk.ThingHomeSdk");
-            DebugLogger.d(TAG, "ThingHomeSdk class loaded");
-            
-            // Get init method - correct signature: init(Application)
-            java.lang.reflect.Method initMethod = sdkClass.getMethod("init", 
-                android.app.Application.class);
-            DebugLogger.d(TAG, "Init method found");
-            
-            // Call init with just application context
-            Object result = initMethod.invoke(null, this);
-            DebugLogger.d(TAG, "Init method called, result: " + result);
+            // Direct SDK initialization (no reflection needed!)
+            ThingHomeSdk.init(this);
+            DebugLogger.d(TAG, "✅ ThingHomeSdk.init() called successfully!");
             
             // Enable debug mode
-            java.lang.reflect.Method debugMethod = sdkClass.getMethod("setDebugMode", boolean.class);
-            debugMethod.invoke(null, true);
-            DebugLogger.d(TAG, "Debug mode enabled");
+            ThingHomeSdk.setDebugMode(true);
+            DebugLogger.d(TAG, "✅ Debug mode enabled");
             
             DebugLogger.d(TAG, "✅ Tuya SDK initialized successfully!");
             DebugLogger.d(TAG, "AppKey and AppSecret loaded from AndroidManifest.xml");
             
-        } catch (ClassNotFoundException e) {
-            DebugLogger.e(TAG, "❌ Tuya SDK class not found: " + e.getMessage());
-            DebugLogger.e(TAG, "Make sure Tuya SDK dependencies are included in build.gradle");
-        } catch (NoSuchMethodException e) {
-            DebugLogger.e(TAG, "❌ Tuya SDK method not found: " + e.getMessage());
-            DebugLogger.e(TAG, "SDK version mismatch?");
         } catch (Exception e) {
             DebugLogger.e(TAG, "❌ Tuya SDK initialization failed: " + e.getClass().getName());
             DebugLogger.e(TAG, "Error message: " + e.getMessage());
