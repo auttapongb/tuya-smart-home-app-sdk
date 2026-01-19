@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             DebugLogger.d(TAG, "Starting camera pairing...");
             
-            Intent intent = new Intent(this, CameraPairingActivity.class);
+            Intent intent = new Intent(this, PairingModeSelectionActivity.class);
             intent.putExtra("user_email", userEmail);
             startActivity(intent);
             

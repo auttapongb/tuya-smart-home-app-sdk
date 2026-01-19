@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical">
+    
+    <!-- Signal Strength Icon -->
+    <TextView
+        android:id="@+id/tvSignalIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="📶"
+        android:textSize="24sp"
+        android:gravity="center"/>
+    
+    <!-- Network Info -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
+        
+        <!-- SSID -->
+        <TextView
+            android:id="@+id/tvSSID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WiFi Network"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:textStyle="bold"/>
+        
+        <!-- Details (Security + Frequency) -->
+        <TextView
+            android:id="@+id/tvDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Secured • 2.4GHz"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+    
+    <!-- Current Network Indicator -->
+    <TextView
+        android:id="@+id/tvCurrentIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✓"
+        android:textSize="20sp"
+        android:textColor="#FF9800"
+        android:visibility="gone"
+        android:layout_marginStart="8dp"/>
+</LinearLayout>

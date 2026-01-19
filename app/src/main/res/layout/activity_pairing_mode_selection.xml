@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Pairing Method"
+            android:textSize="24sp"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select the best method for your camera"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="24dp"/>
+        
+        <!-- QR Code Mode (Recommended) -->
+        <LinearLayout
+            android:id="@+id/btnQRCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="📷"
+                    android:textSize="32sp"
+                    android:gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QR Code"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:textStyle="bold"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Recommended • Fastest for cameras"
+                        android:textSize="12sp"
+                        android:textColor="#FF9800"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="→"
+                    android:textSize="24sp"
+                    android:textColor="#999999"/>
+            </LinearLayout>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Camera scans QR code on your phone screen. Quick and easy!"
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="60dp"/>
+        </LinearLayout>
+        
+        <!-- EZ Mode -->
+        <LinearLayout
+            android:id="@+id/btnEZMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="⚡"
+                    android:textSize="32sp"
+                    android:gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EZ Mode"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:textStyle="bold"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quick WiFi pairing"
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="→"
+                    android:textSize="24sp"
+                    android:textColor="#999999"/>
+            </LinearLayout>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="App broadcasts WiFi credentials. Camera listens and connects automatically."
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="60dp"/>
+        </LinearLayout>
+        
+        <!-- AP Mode -->
+        <LinearLayout
+            android:id="@+id/btnAPMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="📡"
+                    android:textSize="32sp"
+                    android:gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AP Mode"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:textStyle="bold"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Connect to camera hotspot"
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="→"
+                    android:textSize="24sp"
+                    android:textColor="#999999"/>
+            </LinearLayout>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone connects to camera's WiFi hotspot. More reliable fallback option."
+                android:textSize="12sp"
+                android:textColor="#666666"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="60dp"/>
+        </LinearLayout>
+        
+        <!-- Bluetooth Mode -->
+        <LinearLayout
+            android:id="@+id/btnBluetooth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:elevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                
+                <TextView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="🔵"
+                    android:textSize="32sp"
+                    android:gravity="center"/>
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bluetooth"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:textStyle="bold"/>
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="For BLE-enabled devices • Coming soon"
+                        android:textSize="12sp"
+                        android:textColor="#999999"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="→"
+                    android:textSize="24sp"
+                    android:textColor="#CCCCCC"/>
+            </LinearLayout>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pair via Bluetooth Low Energy. Available for compatible cameras."
+                android:textSize="12sp"
+                android:textColor="#999999"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="60dp"/>
+        </LinearLayout>
+        
+        <!-- Help Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="💡 Tip: Try QR Code first, then EZ Mode if it doesn't work"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:background="#FFF9E6"/>
+    </LinearLayout>
+</ScrollView>

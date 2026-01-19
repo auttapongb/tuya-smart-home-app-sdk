@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+    
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FF9800"
+        android:padding="16dp">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select WiFi Network"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
+        
+        <TextView
+            android:id="@+id/tvCurrentNetwork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current: SPAM_2"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+    
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:visibility="gone"/>
+    
+    <!-- WiFi Networks List -->
+    <ListView
+        android:id="@+id/lvWiFiNetworks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#E0E0E0"
+        android:dividerHeight="1dp"
+        android:background="#FFFFFF"/>
+    
+    <!-- Bottom Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#FFFFFF">
+        
+        <Button
+            android:id="@+id/btnRescan"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🔄 Rescan Networks"
+            android:textColor="#FFFFFF"
+            android:background="#2196F3"
+            android:textSize="16sp"/>
+        
+        <Button
+            android:id="@+id/btnManualEntry"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📝 Enter WiFi Name Manually"
+            android:textColor="#666666"
+            android:background="#E0E0E0"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</LinearLayout>

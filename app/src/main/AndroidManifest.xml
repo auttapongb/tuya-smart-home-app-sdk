@@ -95,6 +95,14 @@
             android:name=".DevicePairingActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".PairingModeSelectionActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".WiFiSelectionActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
