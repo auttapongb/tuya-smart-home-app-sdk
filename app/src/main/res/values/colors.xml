@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- PANDO Brand Colors -->
-    <color name="pando_orange">#FFA500</color>
-    <color name="pando_orange_dark">#FF8C00</color>
-    <color name="pando_orange_light">#FFB733</color>
+    <!-- PANDO Brand Colors (from website) -->
+    <color name="pando_yellow">#FFC107</color>
+    <color name="pando_yellow_dark">#FFA000</color>
+    <color name="pando_yellow_light">#FFD54F</color>
+    <color name="pando_gold">#FFD700</color>
+    <color name="pando_black">#000000</color>
+    <color name="pando_white">#FFFFFF</color>
+    
+    <!-- Legacy PANDO colors -->
+    <color name="pando_orange">#FFC107</color>
+    <color name="pando_orange_dark">#FFA000</color>
+    <color name="pando_orange_light">#FFD54F</color>
     <color name="pando_green">#4CAF50</color>
     <color name="pando_red">#FF5252</color>
     

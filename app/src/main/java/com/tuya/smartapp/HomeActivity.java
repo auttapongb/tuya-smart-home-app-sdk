@@ -13,7 +13,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     
     private TextView tvWelcome, tvNoDevices;
-    private Button btnPairCamera, btnAddDevice, btnShopProducts, btnSettings, btnLogout;
+    private Button btnPairCamera, btnAddDevice, btnShopProducts, btnBlog, btnSettings, btnLogout;
     private RecyclerView recyclerDevices;
     
     private String userEmail;
@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
             btnPairCamera = findViewById(R.id.btn_pair_camera);
             btnAddDevice = findViewById(R.id.btn_add_device);
             btnShopProducts = findViewById(R.id.btn_shop_products);
+            btnBlog = findViewById(R.id.btn_blog);
             btnSettings = findViewById(R.id.btn_settings);
             btnLogout = findViewById(R.id.btn_logout);
             recyclerDevices = findViewById(R.id.recycler_devices);
@@ -96,6 +97,13 @@ public class HomeActivity extends AppCompatActivity {
                 btnShopProducts.setOnClickListener(v -> {
                     DebugLogger.d(TAG, ">>> SHOP PRODUCTS button clicked");
                     openProductCatalog();
+                });
+            }
+            
+            if (btnBlog != null) {
+                btnBlog.setOnClickListener(v -> {
+                    DebugLogger.d(TAG, ">>> BLOG button clicked");
+                    openBlog();
                 });
             }
             
@@ -166,6 +174,21 @@ public class HomeActivity extends AppCompatActivity {
         } catch (Exception e) {
             DebugLogger.e(TAG, "Error starting device pairing", e);
             Toast.makeText(this, "Device pairing coming soon!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private void openBlog() {
+        try {
+            DebugLogger.d(TAG, "Opening PANDO Story blog...");
+            
+            Intent intent = new Intent(this, BlogActivity.class);
+            startActivity(intent);
+            
+            DebugLogger.d(TAG, "Blog opened");
+            
+        } catch (Exception e) {
+            DebugLogger.e(TAG, "Error opening blog", e);
+            Toast.makeText(this, "Error opening blog: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     
