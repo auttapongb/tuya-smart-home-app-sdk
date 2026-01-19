@@ -2,7 +2,7 @@ package com.tuya.smartapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,12 +23,12 @@ public class ProductCatalogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        Log.d(TAG, "=== ProductCatalogActivity onCreate START ===");
+        DebugLogger.d(TAG, "=== ProductCatalogActivity onCreate START ===");
         
         try {
-            Log.d(TAG, "Setting content view");
+            DebugLogger.d(TAG, "Setting content view");
             setContentView(R.layout.activity_product_catalog);
-            Log.d(TAG, "Content view set successfully");
+            DebugLogger.d(TAG, "Content view set successfully");
             
             Toolbar toolbar = findViewById(R.id.toolbar);
             if (toolbar != null) {
@@ -47,10 +47,10 @@ public class ProductCatalogActivity extends AppCompatActivity {
             
             loadProducts();
             
-            Log.d(TAG, "Products loaded: " + (productList != null ? productList.size() : 0));
+            DebugLogger.d(TAG, "Products loaded: " + (productList != null ? productList.size() : 0));
             
             if (recyclerView != null && productList != null) {
-                Log.d(TAG, "Setting up adapter");
+                DebugLogger.d(TAG, "Setting up adapter");
                 adapter = new ProductCatalogAdapter(this, productList, product -> {
                     try {
                         Intent intent = new Intent(ProductCatalogActivity.this, ProductDetailActivity.class);
@@ -66,12 +66,12 @@ public class ProductCatalogActivity extends AppCompatActivity {
                     }
                 });
                 recyclerView.setAdapter(adapter);
-                Log.d(TAG, "Adapter set successfully");
+                DebugLogger.d(TAG, "Adapter set successfully");
             }
             
-            Log.d(TAG, "=== ProductCatalogActivity onCreate SUCCESS ===");
+            DebugLogger.d(TAG, "=== ProductCatalogActivity onCreate SUCCESS ===");
         } catch (Exception e) {
-            Log.e(TAG, "=== ProductCatalogActivity onCreate FAILED ===", e);
+            DebugLogger.e(TAG, "=== ProductCatalogActivity onCreate FAILED ===", e);
             Toast.makeText(this, "Error loading products: " + e.getMessage(), Toast.LENGTH_LONG).show();
             finish();
         }
@@ -80,13 +80,13 @@ public class ProductCatalogActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "=== ProductCatalogActivity onStart ===");
+        DebugLogger.d(TAG, "=== ProductCatalogActivity onStart ===");
     }
     
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "=== ProductCatalogActivity onDestroy ===");
+        DebugLogger.d(TAG, "=== ProductCatalogActivity onDestroy ===");
     }
     
     private void loadProducts() {

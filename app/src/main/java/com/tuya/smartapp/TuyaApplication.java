@@ -1,7 +1,6 @@
 package com.tuya.smartapp;
 
 import android.app.Application;
-import android.util.Log;
 
 /**
  * Application class for PANDO Smart Home App
@@ -14,17 +13,17 @@ public class TuyaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         
-        Log.d(TAG, "\n\n");
-        Log.d(TAG, "################################################");
-        Log.d(TAG, "###   PANDO APPLICATION STARTING   ###");
-        Log.d(TAG, "###   Version: 3.3-Debug           ###");
-        Log.d(TAG, "################################################");
-        Log.d(TAG, "TuyaApplication.onCreate() called");
+        DebugLogger.d(TAG, "\n\n");
+        DebugLogger.d(TAG, "################################################");
+        DebugLogger.d(TAG, "###   PANDO APPLICATION STARTING   ###");
+        DebugLogger.d(TAG, "###   Version: 3.4-InAppDebug      ###");
+        DebugLogger.d(TAG, "################################################");
+        DebugLogger.d(TAG, "TuyaApplication.onCreate() called");
         
         // Initialize Tuya SDK in a separate thread to prevent blocking
         new Thread(() -> {
             try {
-                Log.d(TAG, "Initializing Tuya SDK in background...");
+                DebugLogger.d(TAG, "Initializing Tuya SDK in background...");
                 
                 // Import Tuya SDK classes
                 Class<?> sdkClass = Class.forName("com.thingclips.smart.home.sdk.ThingHomeSdk");
@@ -42,16 +41,16 @@ public class TuyaApplication extends Application {
                 java.lang.reflect.Method debugMethod = sdkClass.getMethod("setDebugMode", boolean.class);
                 debugMethod.invoke(null, true);
                 
-                Log.d(TAG, "Tuya SDK initialized successfully");
+                DebugLogger.d(TAG, "Tuya SDK initialized successfully");
                 
             } catch (Exception e) {
-                Log.e(TAG, "Tuya SDK initialization failed (non-critical): " + e.getMessage());
+                DebugLogger.e(TAG, "Tuya SDK initialization failed (non-critical): " + e.getMessage());
                 // App will continue to work without SDK features
             }
         }).start();
         
-        Log.d(TAG, "TuyaApplication.onCreate() completed");
-        Log.d(TAG, "PANDO App started successfully");
-        Log.d(TAG, "################################################\n");
+        DebugLogger.d(TAG, "TuyaApplication.onCreate() completed");
+        DebugLogger.d(TAG, "PANDO App started successfully");
+        DebugLogger.d(TAG, "################################################\n");
     }
 }

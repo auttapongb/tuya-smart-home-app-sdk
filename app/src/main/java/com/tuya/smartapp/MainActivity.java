@@ -2,38 +2,89 @@ package com.tuya.smartapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DebugLogger.LogUpdateListener {
     private static final String TAG = "MainActivity";
-    private static final String APP_VERSION = "3.3-Debug";
+    private static final String APP_VERSION = "3.4-InAppDebug";
+    
+    private View debugLogContainer;
+    private TextView tvLogs;
+    private ScrollView scrollLogs;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        Log.d(TAG, "========================================");
-        Log.d(TAG, "=== PANDO APP STARTING ===");
-        Log.d(TAG, "=== Version: " + APP_VERSION + " ===");
-        Log.d(TAG, "========================================");
-        Log.d(TAG, "MainActivity onCreate started");
+        DebugLogger.d(TAG, "========================================");
+        DebugLogger.d(TAG, "=== PANDO APP STARTING ===");
+        DebugLogger.d(TAG, "=== Version: " + APP_VERSION + " ===");
+        DebugLogger.d(TAG, "========================================");
+        DebugLogger.d(TAG, "MainActivity onCreate started");
         
         try {
             setContentView(R.layout.activity_main);
-            Log.d(TAG, "Layout set successfully");
+            DebugLogger.d(TAG, "Layout set successfully");
+            
+            setupDebugViewer();
             initializeViews();
+            
         } catch (Exception e) {
-            Log.e(TAG, "Error in onCreate", e);
+            DebugLogger.e(TAG, "Error in onCreate", e);
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
     
+    private void setupDebugViewer() {
+        DebugLogger.d(TAG, "Setting up debug viewer");
+        
+        debugLogContainer = findViewById(R.id.debug_log_container);
+        tvLogs = findViewById(R.id.tv_logs);
+        scrollLogs = findViewById(R.id.scroll_logs);
+        
+        Button btnShowDebug = findViewById(R.id.btn_show_debug);
+        Button btnClearLogs = findViewById(R.id.btn_clear_logs);
+        Button btnCloseLogs = findViewById(R.id.btn_close_logs);
+        
+        if (btnShowDebug != null) {
+            btnShowDebug.setOnClickListener(v -> {
+                DebugLogger.d(TAG, "Show debug logs button clicked");
+                if (debugLogContainer != null) {
+                    debugLogContainer.setVisibility(View.VISIBLE);
+                    updateLogDisplay();
+                }
+            });
+        }
+        
+        if (btnClearLogs != null) {
+            btnClearLogs.setOnClickListener(v -> {
+                DebugLogger.d(TAG, "Clear logs button clicked");
+                DebugLogger.clear();
+            });
+        }
+        
+        if (btnCloseLogs != null) {
+            btnCloseLogs.setOnClickListener(v -> {
+                DebugLogger.d(TAG, "Hide logs button clicked");
+                if (debugLogContainer != null) {
+                    debugLogContainer.setVisibility(View.GONE);
+                }
+            });
+        }
+        
+        // Set this activity as the log update listener
+        DebugLogger.setListener(this);
+        
+        DebugLogger.d(TAG, "Debug viewer setup complete");
+    }
+    
     private void initializeViews() {
-        Log.d(TAG, "initializeViews() started");
+        DebugLogger.d(TAG, "initializeViews() started");
         
         TextView tvAppName = findViewById(R.id.tv_app_name);
         TextView tvWelcome = findViewById(R.id.tv_welcome);
@@ -41,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnGetStarted = findViewById(R.id.btn_get_started);
         Button btnShopProducts = findViewById(R.id.btnShopProducts);
         
-        Log.d(TAG, "Views found - tvAppName: " + (tvAppName != null) + 
+        DebugLogger.d(TAG, "Views found - tvAppName: " + (tvAppName != null) + 
                    ", tvWelcome: " + (tvWelcome != null) +
                    ", tvFeatures: " + (tvFeatures != null) +
                    ", btnGetStarted: " + (btnGetStarted != null) +
@@ -49,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         
         if (tvAppName != null) {
             tvAppName.setText("PANDO v" + APP_VERSION);
-            Log.d(TAG, "App name set with version");
+            DebugLogger.d(TAG, "App name set with version");
         }
         if (tvWelcome != null) tvWelcome.setText("Welcome to PANDO Smart Home");
         if (tvFeatures != null) {
@@ -60,67 +111,86 @@ public class MainActivity extends AppCompatActivity {
                     "✓ Smart Devices\n\n" +
                     "Get started to explore all features!\n\n" +
                     "Version: " + APP_VERSION);
-            Log.d(TAG, "Features text set");
+            DebugLogger.d(TAG, "Features text set");
         }
         
         if (btnGetStarted != null) {
             btnGetStarted.setOnClickListener(v -> {
-                Log.d(TAG, ">>> GET STARTED button clicked");
+                DebugLogger.d(TAG, ">>> GET STARTED button clicked");
                 try {
-                    Log.d(TAG, "Creating intent for LoginActivity");
+                    DebugLogger.d(TAG, "Creating intent for LoginActivity");
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    Log.d(TAG, "Starting LoginActivity");
+                    DebugLogger.d(TAG, "Starting LoginActivity");
                     startActivity(intent);
-                    Log.d(TAG, "LoginActivity started successfully");
+                    DebugLogger.d(TAG, "LoginActivity started successfully");
                 } catch (Exception e) {
-                    Log.e(TAG, "!!! ERROR starting LoginActivity !!!", e);
+                    DebugLogger.e(TAG, "!!! ERROR starting LoginActivity !!!", e);
                     Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
-            Log.d(TAG, "Get Started button listener set");
+            DebugLogger.d(TAG, "Get Started button listener set");
         }
         
         if (btnShopProducts != null) {
             btnShopProducts.setOnClickListener(v -> {
-                Log.d(TAG, ">>> SHOP PRODUCTS button clicked");
+                DebugLogger.d(TAG, ">>> SHOP PRODUCTS button clicked");
                 try {
-                    Log.d(TAG, "Creating intent for ProductCatalogActivity");
+                    DebugLogger.d(TAG, "Creating intent for ProductCatalogActivity");
                     Intent intent = new Intent(MainActivity.this, ProductCatalogActivity.class);
-                    Log.d(TAG, "Starting ProductCatalogActivity");
+                    DebugLogger.d(TAG, "Starting ProductCatalogActivity");
                     startActivity(intent);
-                    Log.d(TAG, "ProductCatalogActivity started successfully");
+                    DebugLogger.d(TAG, "ProductCatalogActivity started successfully");
                 } catch (Exception e) {
-                    Log.e(TAG, "!!! ERROR starting ProductCatalogActivity !!!", e);
+                    DebugLogger.e(TAG, "!!! ERROR starting ProductCatalogActivity !!!", e);
                     Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
-            Log.d(TAG, "Shop Products button listener set");
+            DebugLogger.d(TAG, "Shop Products button listener set");
         }
         
-        Log.d(TAG, "initializeViews() completed successfully");
+        DebugLogger.d(TAG, "initializeViews() completed successfully");
+    }
+    
+    @Override
+    public void onLogUpdate() {
+        updateLogDisplay();
+    }
+    
+    private void updateLogDisplay() {
+        if (tvLogs != null) {
+            tvLogs.setText(DebugLogger.getLogsAsString());
+            
+            // Auto-scroll to bottom
+            if (scrollLogs != null) {
+                scrollLogs.post(() -> scrollLogs.fullScroll(View.FOCUS_DOWN));
+            }
+        }
     }
     
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "=== MainActivity onStart ===");
+        DebugLogger.d(TAG, "=== MainActivity onStart ===");
     }
     
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "=== MainActivity onResume ===");
+        DebugLogger.d(TAG, "=== MainActivity onResume ===");
+        DebugLogger.setListener(this);
+        updateLogDisplay();
     }
     
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "=== MainActivity onPause ===");
+        DebugLogger.d(TAG, "=== MainActivity onPause ===");
     }
     
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "=== MainActivity onDestroy ===");
+        DebugLogger.d(TAG, "=== MainActivity onDestroy ===");
+        DebugLogger.setListener(null);
     }
 }
