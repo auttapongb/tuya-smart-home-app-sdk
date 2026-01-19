@@ -14,8 +14,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-        versionCode 16
-        versionName "3.11.2-SDKFix"
+        versionCode 17
+        versionName "3.11.3-BugFix"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
