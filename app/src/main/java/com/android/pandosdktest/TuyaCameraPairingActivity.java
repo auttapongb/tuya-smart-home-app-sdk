@@ -54,22 +54,27 @@ public class TuyaCameraPairingActivity extends AppCompatActivity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        // Log BEFORE super.onCreate to catch early crashes
+        DebugLogger.d(TAG, "=== TuyaCameraPairingActivity.onCreate() CALLED ===");
         
         try {
-            DebugLogger.d(TAG, "=== Tuya Camera Pairing Activity START ===");
+            super.onCreate(savedInstanceState);
+            DebugLogger.d(TAG, "=== super.onCreate() completed ===");
             
             setContentView(R.layout.activity_camera_pairing);
+            DebugLogger.d(TAG, "=== setContentView() completed ===");
             
             // Get extras
             userEmail = getIntent().getStringExtra("user_email");
             pairingMode = getIntent().getStringExtra("pairing_mode");
             if (pairingMode == null) pairingMode = "qr_code";
-            
-            DebugLogger.d(TAG, "Pairing mode: " + pairingMode);
+            DebugLogger.d(TAG, "=== Extras retrieved: mode=" + pairingMode + ", email=" + userEmail + " ===");
             
             initializeViews();
+            DebugLogger.d(TAG, "=== initializeViews() completed ===");
+            
             wifiScanner = new WiFiScanner(this);
+            DebugLogger.d(TAG, "=== WiFiScanner created ===");
             
             // Load home ID using HomeIdManager
             homeIdManager = new HomeIdManager(this);
