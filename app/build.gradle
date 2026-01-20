@@ -14,8 +14,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-        versionCode 23
-        versionName "3.15.0-ConfigFix"
+        versionCode 24
+        versionName "3.16.0-TuyaAuth"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
