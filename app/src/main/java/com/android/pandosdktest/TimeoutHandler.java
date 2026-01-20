@@ -1,4 +1,4 @@
-package com.tuya.smartapp;
+package com.android.pandosdktest;
 
 import android.os.Handler;
 import android.os.Looper;

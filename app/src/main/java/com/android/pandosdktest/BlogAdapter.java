@@ -1,4 +1,4 @@
-package com.tuya.smartapp;
+package com.android.pandosdktest;
 
 import android.content.Context;
 import android.content.Intent;

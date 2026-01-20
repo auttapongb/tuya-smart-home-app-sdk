@@ -1,4 +1,4 @@
-package com.tuya.smartapp;
+package com.android.pandosdktest;
 
 /**
  * Constants for Intent extras to ensure consistency across activities

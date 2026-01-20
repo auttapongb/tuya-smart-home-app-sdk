@@ -1,4 +1,4 @@
-package com.tuya.smartapp;
+package com.android.pandosdktest;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

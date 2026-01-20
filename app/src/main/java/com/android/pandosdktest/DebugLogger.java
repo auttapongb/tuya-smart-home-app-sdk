@@ -1,4 +1,4 @@
-package com.tuya.smartapp;
+package com.android.pandosdktest;
 
 import android.util.Log;
 import java.text.SimpleDateFormat;
