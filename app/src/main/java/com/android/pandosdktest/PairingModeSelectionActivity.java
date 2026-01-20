@@ -16,12 +16,14 @@ public class PairingModeSelectionActivity extends AppCompatActivity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        DebugLogger.d(TAG, "=== PairingModeSelectionActivity.onCreate() CALLED ===");
         
         try {
-            DebugLogger.d(TAG, "=== PairingModeSelectionActivity onCreate START ===");
+            super.onCreate(savedInstanceState);
+            DebugLogger.d(TAG, "=== super.onCreate() completed ===");
             
             setContentView(R.layout.activity_pairing_mode_selection);
+            DebugLogger.d(TAG, "=== setContentView() completed ===");
             
             // Get user email from intent
             userEmail = getIntent().getStringExtra("user_email");
@@ -62,13 +64,20 @@ public class PairingModeSelectionActivity extends AppCompatActivity {
     }
     
     private void startPairing(String mode) {
-        DebugLogger.d(TAG, "Starting pairing with mode: " + mode);
+        DebugLogger.d(TAG, "=== startPairing() CALLED with mode: " + mode + " ===");
         
-        Intent intent = new Intent(this, TuyaCameraPairingActivity.class);
-        intent.putExtra("pairing_mode", mode);
-        intent.putExtra("user_email", userEmail);
-        startActivity(intent);
-        finish();
+        try {
+            Intent intent = new Intent(this, TuyaCameraPairingActivity.class);
+            intent.putExtra("pairing_mode", mode);
+            intent.putExtra("user_email", userEmail);
+            DebugLogger.d(TAG, "Intent created, starting TuyaCameraPairingActivity...");
+            startActivity(intent);
+            DebugLogger.d(TAG, "startActivity() called, finishing PairingModeSelectionActivity");
+            finish();
+        } catch (Exception e) {
+            DebugLogger.e(TAG, "Error starting TuyaCameraPairingActivity", e);
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
     
     @Override

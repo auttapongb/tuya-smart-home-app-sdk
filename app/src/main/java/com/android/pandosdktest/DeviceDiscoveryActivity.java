@@ -181,9 +181,17 @@ public class DeviceDiscoveryActivity extends AppCompatActivity {
     }
     
     private void goToPairingModeSelection() {
-        Intent intent = new Intent(this, PairingModeSelectionActivity.class);
-        intent.putExtra("user_email", userEmail);
-        startActivity(intent);
+        DebugLogger.d(TAG, "=== goToPairingModeSelection() CALLED ===");
+        try {
+            Intent intent = new Intent(this, PairingModeSelectionActivity.class);
+            intent.putExtra("user_email", userEmail);
+            DebugLogger.d(TAG, "Intent created, starting PairingModeSelectionActivity...");
+            startActivity(intent);
+            DebugLogger.d(TAG, "startActivity() called successfully");
+        } catch (Exception e) {
+            DebugLogger.e(TAG, "Error starting PairingModeSelectionActivity", e);
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
     
     @Override
