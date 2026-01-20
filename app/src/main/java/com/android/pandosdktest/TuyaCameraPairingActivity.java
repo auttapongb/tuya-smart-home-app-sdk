@@ -215,7 +215,8 @@ public class TuyaCameraPairingActivity extends AppCompatActivity {
                         
                         if ("onSuccess".equals(methodName)) {
                             pairingToken = (String) args[0];
-                            DebugLogger.d(TAG, "✅ Pairing token received: " + pairingToken.substring(0, 20) + "...");
+                            String tokenPreview = pairingToken.length() > 20 ? pairingToken.substring(0, 20) + "..." : pairingToken;
+                            DebugLogger.d(TAG, "✅ Pairing token received: " + tokenPreview);
                             
                             runOnUiThread(() -> {
                                 Toast.makeText(this, "✅ Token received! Ready to generate QR code", Toast.LENGTH_SHORT).show();
