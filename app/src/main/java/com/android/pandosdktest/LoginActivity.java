@@ -172,6 +172,9 @@ public class LoginActivity extends AppCompatActivity {
                         Object user = args != null && args.length > 0 ? args[0] : null;
                         DebugLogger.d(TAG, "✅ Tuya login successful!");
                         
+                        // Create home if needed
+                        createHomeIfNeeded(email);
+                        
                         runOnUiThread(() -> {
                             Toast.makeText(LoginActivity.this, "Welcome to PANDO!", Toast.LENGTH_SHORT).show();
                             
@@ -245,6 +248,150 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Login error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 resetUI();
             });
+        }
+    }
+    
+    private void createHomeIfNeeded(String userEmail) {
+        try {
+            DebugLogger.d(TAG, "Checking if home exists...");
+            
+            // Get home manager instance
+            Class<?> thingHomeSdkClass = Class.forName("com.thingclips.smart.home.sdk.ThingHomeSdk");
+            Method getHomeManagerMethod = thingHomeSdkClass.getMethod("getHomeManagerInstance");
+            Object homeManager = getHomeManagerMethod.invoke(null);
+            
+            // Query home list
+            Class<?> iThingGetHomeListCallbackClass = Class.forName("com.thingclips.smart.home.sdk.callback.IThingGetHomeListCallback");
+            
+            Object callback = java.lang.reflect.Proxy.newProxyInstance(
+                getClassLoader(),
+                new Class[]{iThingGetHomeListCallbackClass},
+                (proxy, method, args) -> {
+                    String methodName = method.getName();
+                    
+                    if ("onSuccess".equals(methodName)) {
+                        Object homeList = args != null && args.length > 0 ? args[0] : null;
+                        
+                        if (homeList != null && homeList instanceof java.util.List) {
+                            java.util.List<?> homes = (java.util.List<?>) homeList;
+                            
+                            if (homes.isEmpty()) {
+                                DebugLogger.d(TAG, "No homes found, creating default home...");
+                                createDefaultHome();
+                            } else {
+                                DebugLogger.d(TAG, "✅ User already has " + homes.size() + " home(s)");
+                                // Save first home ID
+                                try {
+                                    Object firstHome = homes.get(0);
+                                    Method getHomeIdMethod = firstHome.getClass().getMethod("getHomeId");
+                                    Long homeId = (Long) getHomeIdMethod.invoke(firstHome);
+                                    
+                                    if (homeId != null) {
+                                        HomeIdManager manager = new HomeIdManager(LoginActivity.this);
+                                        manager.setCurrentHome(homeId, "My Home");
+                                        DebugLogger.d(TAG, "✅ Saved homeId: " + homeId);
+                                    }
+                                } catch (Exception e) {
+                                    DebugLogger.e(TAG, "Error saving home ID", e);
+                                }
+                            }
+                        } else {
+                            DebugLogger.d(TAG, "No homes found, creating default home...");
+                            createDefaultHome();
+                        }
+                    } else if ("onError".equals(methodName)) {
+                        String errorCode = args != null && args.length > 0 ? String.valueOf(args[0]) : "UNKNOWN";
+                        String errorMsg = args != null && args.length > 1 ? String.valueOf(args[1]) : "Unknown error";
+                        DebugLogger.e(TAG, "❌ Failed to get home list: " + errorCode + " - " + errorMsg);
+                        
+                        // Create default home anyway
+                        createDefaultHome();
+                    }
+                    
+                    return null;
+                }
+            );
+            
+            // Call queryHomeList
+            Method queryHomeListMethod = homeManager.getClass().getMethod("queryHomeList", iThingGetHomeListCallbackClass);
+            queryHomeListMethod.invoke(homeManager, callback);
+            
+        } catch (Exception e) {
+            DebugLogger.e(TAG, "Error checking home", e);
+            // Try to create home anyway
+            createDefaultHome();
+        }
+    }
+    
+    private void createDefaultHome() {
+        try {
+            DebugLogger.d(TAG, "Creating default home: My Home");
+            
+            // Get home manager instance
+            Class<?> thingHomeSdkClass = Class.forName("com.thingclips.smart.home.sdk.ThingHomeSdk");
+            Method getHomeManagerMethod = thingHomeSdkClass.getMethod("getHomeManagerInstance");
+            Object homeManager = getHomeManagerMethod.invoke(null);
+            
+            // Create callback
+            Class<?> iThingHomeResultCallbackClass = Class.forName("com.thingclips.smart.home.sdk.callback.IThingHomeResultCallback");
+            
+            Object callback = java.lang.reflect.Proxy.newProxyInstance(
+                getClassLoader(),
+                new Class[]{iThingHomeResultCallbackClass},
+                (proxy, method, args) -> {
+                    String methodName = method.getName();
+                    
+                    if ("onSuccess".equals(methodName)) {
+                        Object homeBean = args != null && args.length > 0 ? args[0] : null;
+                        DebugLogger.d(TAG, "✅ Home created successfully!");
+                        
+                        // Save home ID
+                        if (homeBean != null) {
+                            try {
+                                Method getHomeIdMethod = homeBean.getClass().getMethod("getHomeId");
+                                Long homeId = (Long) getHomeIdMethod.invoke(homeBean);
+                                
+                                if (homeId != null) {
+                                    HomeIdManager manager = new HomeIdManager(LoginActivity.this);
+                                    manager.setCurrentHome(homeId, "My Home");
+                                    DebugLogger.d(TAG, "✅ Saved homeId: " + homeId);
+                                }
+                            } catch (Exception e) {
+                                DebugLogger.e(TAG, "Error saving home ID", e);
+                            }
+                        }
+                    } else if ("onError".equals(methodName)) {
+                        String errorCode = args != null && args.length > 0 ? String.valueOf(args[0]) : "UNKNOWN";
+                        String errorMsg = args != null && args.length > 1 ? String.valueOf(args[1]) : "Unknown error";
+                        DebugLogger.e(TAG, "❌ Failed to create home: " + errorCode + " - " + errorMsg);
+                    }
+                    
+                    return null;
+                }
+            );
+            
+            // Call createHome(name, lon, lat, geoName, rooms, callback)
+            String homeName = "My Home";
+            double lon = 0;
+            double lat = 0;
+            String geoName = "";
+            java.util.List<String> rooms = new java.util.ArrayList<>();
+            
+            Method createHomeMethod = homeManager.getClass().getMethod(
+                "createHome",
+                String.class,
+                double.class,
+                double.class,
+                String.class,
+                java.util.List.class,
+                iThingHomeResultCallbackClass
+            );
+            
+            createHomeMethod.invoke(homeManager, homeName, lon, lat, geoName, rooms, callback);
+            DebugLogger.d(TAG, "Home creation request sent");
+            
+        } catch (Exception e) {
+            DebugLogger.e(TAG, "Error creating home", e);
         }
     }
     
