@@ -264,7 +264,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             
             // Create callback
-            Class<?> iRegisterCallbackClass = Class.forName("com.thingclips.smart.sdk.api.IThingUser$IRegisterCallback");
+            Class<?> iRegisterCallbackClass = Class.forName("com.thingclips.smart.android.user.api.IRegisterCallback");
             
             Object callback = java.lang.reflect.Proxy.newProxyInstance(
                 getClassLoader(),

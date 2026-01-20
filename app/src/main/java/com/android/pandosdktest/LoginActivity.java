@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
             DebugLogger.d(TAG, "✅ Got ThingHomeSdk user instance");
             
             // Create callback using reflection
-            Class<?> iLoginCallbackClass = Class.forName("com.thingclips.smart.sdk.api.IThingUser$ILoginCallback");
+            Class<?> iLoginCallbackClass = Class.forName("com.thingclips.smart.android.user.api.ILoginCallback");
             
             Object loginCallback = java.lang.reflect.Proxy.newProxyInstance(
                 getClassLoader(),
