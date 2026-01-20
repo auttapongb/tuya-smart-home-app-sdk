@@ -96,8 +96,12 @@ public class TuyaCameraPairingActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle("Pair Camera (Tuya SDK)");
             }
             
-            // Request pairing token from Tuya cloud
-            requestPairingToken();
+            // Request pairing token from Tuya cloud (don't crash if it fails)
+            try {
+                requestPairingToken();
+            } catch (Exception tokenError) {
+                DebugLogger.e(TAG, "Error requesting token (will retry later)", tokenError);
+            }
             
             DebugLogger.d(TAG, "=== Tuya Camera Pairing Activity SUCCESS ===");
             
@@ -108,21 +112,35 @@ public class TuyaCameraPairingActivity extends AppCompatActivity {
     }
     
     private void initializeViews() {
-        tvPairingMode = findViewById(R.id.tvPairingMode);
-        tvInstructions = findViewById(R.id.tvInstructions);
-        tvStatus = findViewById(R.id.tvStatus);
-        etSSID = findViewById(R.id.etSSID);
-        etPassword = findViewById(R.id.etPassword);
-        btnSelectWiFi = findViewById(R.id.btnSelectWiFi);
-        btnStartPairing = findViewById(R.id.btnStartPairing);
-        btnGenerateQR = findViewById(R.id.btnScanQR);
-        btnHeardPrompt = findViewById(R.id.btnHeardPrompt);
-        btnNoPrompt = findViewById(R.id.btnNoPrompt);
-        ivQRCode = findViewById(R.id.ivQRCode);
-        layoutQRCode = findViewById(R.id.layoutQRCode);
-        layoutWiFiInput = findViewById(R.id.layoutWiFiInput);
-        layoutAudioPrompt = findViewById(R.id.layoutAudioPrompt);
-        progressBar = findViewById(R.id.progressBar);
+        try {
+            tvPairingMode = findViewById(R.id.tvPairingMode);
+            tvInstructions = findViewById(R.id.tvInstructions);
+            tvStatus = findViewById(R.id.tvStatus);
+            etSSID = findViewById(R.id.etSSID);
+            etPassword = findViewById(R.id.etPassword);
+            btnSelectWiFi = findViewById(R.id.btnSelectWiFi);
+            btnStartPairing = findViewById(R.id.btnStartPairing);
+            btnGenerateQR = findViewById(R.id.btnScanQR);
+            btnHeardPrompt = findViewById(R.id.btnHeardPrompt);
+            btnNoPrompt = findViewById(R.id.btnNoPrompt);
+            ivQRCode = findViewById(R.id.ivQRCode);
+            layoutQRCode = findViewById(R.id.layoutQRCode);
+            layoutWiFiInput = findViewById(R.id.layoutWiFiInput);
+            layoutAudioPrompt = findViewById(R.id.layoutAudioPrompt);
+            progressBar = findViewById(R.id.progressBar);
+            
+            // Log which views are null
+            if (tvPairingMode == null) DebugLogger.e(TAG, "tvPairingMode is NULL!");
+            if (etSSID == null) DebugLogger.e(TAG, "etSSID is NULL!");
+            if (etPassword == null) DebugLogger.e(TAG, "etPassword is NULL!");
+            if (btnGenerateQR == null) DebugLogger.e(TAG, "btnGenerateQR is NULL!");
+            if (ivQRCode == null) DebugLogger.e(TAG, "ivQRCode is NULL!");
+            
+            DebugLogger.d(TAG, "Views initialized successfully");
+        } catch (Exception e) {
+            DebugLogger.e(TAG, "Error initializing views", e);
+            throw e;
+        }
     }
     
     private void setupPairingMode() {

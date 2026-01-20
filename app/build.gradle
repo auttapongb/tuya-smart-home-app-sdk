@@ -14,8 +14,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-        versionCode 27
-        versionName "3.19.0-HomeCreation"
+        versionCode 28
+        versionName "3.20.0-CrashFix"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
