@@ -13,6 +13,9 @@ public class TuyaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         
+        // Initialize DebugLogger with persistent file storage
+        DebugLogger.init(this);
+        
         DebugLogger.d(TAG, "\n\n");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "###   PANDO APPLICATION STARTING   ###");
