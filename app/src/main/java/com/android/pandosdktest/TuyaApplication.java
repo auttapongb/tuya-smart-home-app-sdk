@@ -16,10 +16,14 @@ public class TuyaApplication extends Application {
         // Initialize DebugLogger with persistent file storage
         DebugLogger.init(this);
         
+        // Set up crash report handler
+        Thread.setDefaultUncaughtExceptionHandler(new CrashReportHandler(this));
+        DebugLogger.d(TAG, "Crash report handler installed");
+        
         DebugLogger.d(TAG, "\n\n");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "###   PANDO APPLICATION STARTING   ###");
-        DebugLogger.d(TAG, "###   Version: 3.14.0-Complete ###");
+        DebugLogger.d(TAG, "###   Version: 3.24.0-CrashReport ###");
         DebugLogger.d(TAG, "################################################");
         DebugLogger.d(TAG, "TuyaApplication.onCreate() called");
         

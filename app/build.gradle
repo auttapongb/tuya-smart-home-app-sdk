@@ -14,8 +14,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-        versionCode 31
-        versionName "3.23.0-PersistentLogs"
+        versionCode 32
+        versionName "3.24.0-CrashReport"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
