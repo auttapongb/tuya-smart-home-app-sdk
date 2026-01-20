@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.lang.reflect.Method;
 
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     
     private EditText etEmail, etPassword, etCode;
+    private TextInputLayout tilCode, tilPassword;
     private Button btnSendCode, btnRegister;
     private ProgressBar progressBar;
     private TextView tvBackToLogin;
@@ -59,14 +61,16 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
         etCode = findViewById(R.id.et_code);
+        tilCode = findViewById(R.id.til_code);
+        tilPassword = findViewById(R.id.til_password);
         btnSendCode = findViewById(R.id.btn_send_code);
         btnRegister = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progress_bar);
         tvBackToLogin = findViewById(R.id.tv_back_to_login);
         
         // Initially hide code and password fields
-        if (etCode != null) etCode.setVisibility(View.GONE);
-        if (etPassword != null) etPassword.setVisibility(View.GONE);
+        if (tilCode != null) tilCode.setVisibility(View.GONE);
+        if (tilPassword != null) tilPassword.setVisibility(View.GONE);
         if (btnRegister != null) btnRegister.setVisibility(View.GONE);
     }
     
@@ -99,19 +103,17 @@ public class RegisterActivity extends AppCompatActivity {
             }
             
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
                 return;
             }
             
             DebugLogger.d(TAG, "Sending verification code to: " + email);
-            
-            if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
-            if (btnSendCode != null) btnSendCode.setEnabled(false);
+            showProgress();
             
             sendVerificationCode(email);
             
         } catch (Exception e) {
-            DebugLogger.e(TAG, "Error sending code", e);
+            DebugLogger.e(TAG, "Error in handleSendCode", e);
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             resetUI();
         }
@@ -119,21 +121,14 @@ public class RegisterActivity extends AppCompatActivity {
     
     private void sendVerificationCode(String email) {
         try {
-            // Get ThingHomeSdk.getUserInstance()
+            // Get ThingHomeSdk user instance
             Class<?> thingHomeSdkClass = Class.forName("com.thingclips.smart.home.sdk.ThingHomeSdk");
             Method getUserInstanceMethod = thingHomeSdkClass.getMethod("getUserInstance");
             Object userInstance = getUserInstanceMethod.invoke(null);
             
-            if (userInstance == null) {
-                DebugLogger.e(TAG, "Failed to get ThingHomeSdk user instance");
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Tuya SDK not initialized", Toast.LENGTH_SHORT).show();
-                    resetUI();
-                });
-                return;
-            }
+            DebugLogger.d(TAG, "✅ Got ThingHomeSdk user instance");
             
-            // Create callback
+            // Create callback interface
             Class<?> iResultCallbackClass = Class.forName("com.thingclips.smart.sdk.api.IResultCallback");
             
             Object callback = java.lang.reflect.Proxy.newProxyInstance(
@@ -141,21 +136,21 @@ public class RegisterActivity extends AppCompatActivity {
                 new Class[]{iResultCallbackClass},
                 (proxy, method, args) -> {
                     String methodName = method.getName();
-                    DebugLogger.d(TAG, "Send code callback: " + methodName);
+                    DebugLogger.d(TAG, "Callback method: " + methodName);
                     
                     if ("onSuccess".equals(methodName)) {
                         DebugLogger.d(TAG, "✅ Verification code sent successfully!");
                         
                         runOnUiThread(() -> {
-                            codeSent = true;
                             Toast.makeText(RegisterActivity.this, "Verification code sent to " + email, Toast.LENGTH_LONG).show();
                             
                             // Show code and password fields
-                            if (etCode != null) etCode.setVisibility(View.VISIBLE);
-                            if (etPassword != null) etPassword.setVisibility(View.VISIBLE);
+                            if (tilCode != null) tilCode.setVisibility(View.VISIBLE);
+                            if (tilPassword != null) tilPassword.setVisibility(View.VISIBLE);
                             if (btnRegister != null) btnRegister.setVisibility(View.VISIBLE);
                             if (btnSendCode != null) btnSendCode.setText("Resend Code");
                             
+                            codeSent = true;
                             resetUI();
                         });
                         
@@ -218,11 +213,6 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
             
-            if (TextUtils.isEmpty(code)) {
-                Toast.makeText(this, "Please enter verification code", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            
             if (TextUtils.isEmpty(password)) {
                 Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
                 return;
@@ -233,15 +223,23 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
             
-            DebugLogger.d(TAG, "Registering account for: " + email);
+            if (TextUtils.isEmpty(code)) {
+                Toast.makeText(this, "Please enter verification code", Toast.LENGTH_SHORT).show();
+                return;
+            }
             
-            if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
-            if (btnRegister != null) btnRegister.setEnabled(false);
+            if (!codeSent) {
+                Toast.makeText(this, "Please send verification code first", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            DebugLogger.d(TAG, "Registering account: " + email);
+            showProgress();
             
             registerAccount(email, password, code);
             
         } catch (Exception e) {
-            DebugLogger.e(TAG, "Error registering", e);
+            DebugLogger.e(TAG, "Error in handleRegister", e);
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             resetUI();
         }
@@ -249,19 +247,12 @@ public class RegisterActivity extends AppCompatActivity {
     
     private void registerAccount(String email, String password, String code) {
         try {
-            // Get ThingHomeSdk.getUserInstance()
+            // Get ThingHomeSdk user instance
             Class<?> thingHomeSdkClass = Class.forName("com.thingclips.smart.home.sdk.ThingHomeSdk");
             Method getUserInstanceMethod = thingHomeSdkClass.getMethod("getUserInstance");
             Object userInstance = getUserInstanceMethod.invoke(null);
             
-            if (userInstance == null) {
-                DebugLogger.e(TAG, "Failed to get ThingHomeSdk user instance");
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Tuya SDK not initialized", Toast.LENGTH_SHORT).show();
-                    resetUI();
-                });
-                return;
-            }
+            DebugLogger.d(TAG, "✅ Got ThingHomeSdk user instance for registration");
             
             // Create callback
             Class<?> iRegisterCallbackClass = Class.forName("com.thingclips.smart.android.user.api.IRegisterCallback");
@@ -271,14 +262,15 @@ public class RegisterActivity extends AppCompatActivity {
                 new Class[]{iRegisterCallbackClass},
                 (proxy, method, args) -> {
                     String methodName = method.getName();
-                    DebugLogger.d(TAG, "Register callback: " + methodName);
+                    DebugLogger.d(TAG, "Register callback method: " + methodName);
                     
                     if ("onSuccess".equals(methodName)) {
                         Object user = args != null && args.length > 0 ? args[0] : null;
-                        DebugLogger.d(TAG, "✅ Registration successful!");
+                        DebugLogger.d(TAG, "✅ Registration successful! User: " + user);
                         
                         runOnUiThread(() -> {
                             Toast.makeText(RegisterActivity.this, "Registration successful! Please login.", Toast.LENGTH_LONG).show();
+                            resetUI();
                             
                             // Go back to login
                             finish();
@@ -291,15 +283,7 @@ public class RegisterActivity extends AppCompatActivity {
                         DebugLogger.e(TAG, "❌ Registration failed: " + errorCode + " - " + errorMsg);
                         
                         runOnUiThread(() -> {
-                            String message = "Registration failed: " + errorMsg;
-                            
-                            if (errorMsg.contains("code") || errorMsg.contains("verification")) {
-                                message = "Invalid verification code. Please try again.";
-                            } else if (errorMsg.contains("exist")) {
-                                message = "Email already registered. Please login instead.";
-                            }
-                            
-                            Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Registration failed: " + errorMsg, Toast.LENGTH_LONG).show();
                             resetUI();
                         });
                     }
@@ -332,12 +316,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
     
+    private void showProgress() {
+        if (progressBar != null) progressBar.setVisibility(View.VISIBLE);
+        if (btnSendCode != null) btnSendCode.setEnabled(false);
+        if (btnRegister != null) btnRegister.setEnabled(false);
+    }
+    
     private void resetUI() {
-        runOnUiThread(() -> {
-            if (progressBar != null) progressBar.setVisibility(View.GONE);
-            if (btnSendCode != null) btnSendCode.setEnabled(true);
-            if (btnRegister != null) btnRegister.setEnabled(true);
-        });
+        if (progressBar != null) progressBar.setVisibility(View.GONE);
+        if (btnSendCode != null) btnSendCode.setEnabled(true);
+        if (btnRegister != null) btnRegister.setEnabled(true);
     }
     
     @Override
